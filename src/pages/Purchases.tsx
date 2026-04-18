@@ -137,11 +137,16 @@ export default function Purchases() {
     if (user?.role === 'admin') {
       baseColumns.push({
         key: 'createdBy',
-        header: 'المسجل',
+        header: 'المسجل والوقت',
         render: (item: Invoice) => (
-          <span className="text-xs text-muted-foreground">
-            {getUserName(item.createdBy)}
-          </span>
+          <div className="flex flex-col">
+            <span className="text-xs font-bold text-foreground">
+              {getUserName(item.createdBy)}
+            </span>
+            <span className="text-[10px] text-muted-foreground" dir="ltr" style={{ textAlign: 'right' }}>
+              {item.createdAt ? format(new Date(item.createdAt), 'dd/MM/yyyy HH:mm') : '-'}
+            </span>
+          </div>
         ),
       });
     }

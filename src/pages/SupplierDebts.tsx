@@ -7,9 +7,25 @@ import { DataTable } from '@/components/ui/DataTable';
 import { Wallet, DollarSign, Users, ExternalLink, Activity } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { toast } from 'sonner';
+import { usersService } from '@/services/usersService';
+import { format } from 'date-fns';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function SupplierDebts() {
     const queryClient = useQueryClient();
+    const { user } = useAuth();
+    
+    const { data: users = [] } = useQuery<{ id: string; name: string }[]>({
+        queryKey: ['users'],
+        queryFn: () => usersService.getAll(),
+        staleTime: 300_000,
+    });
+
+    const getUserName = (userId: string) => {
+        const creator = users.find(u => u.id === userId);
+        return creator ? creator.name : 'Unknown';
+    };
+
     const { data: openInvoices = [], isLoading } = useQuery({
         queryKey: ['open_invoices'],
         queryFn: () => invoicesService.getOpenInvoices()
@@ -237,6 +253,7 @@ export default function SupplierDebts() {
                                             <th className="px-4 py-3 text-center">الإجمالي</th>
                                             <th className="px-4 py-3 text-center">المدفوع سلفاً</th>
                                             <th className="px-4 py-3 text-center">المتبقي (المديونية)</th>
+                                            {user?.role === 'admin' && <th className="px-4 py-3 text-center">المسجل</th>}
                                             <th className="px-4 py-3 text-center">تسديد</th>
                                         </tr>
                                     </thead>
@@ -248,6 +265,18 @@ export default function SupplierDebts() {
                                                 <td className="px-4 py-3 text-center num text-muted-foreground">{formatCurrency(inv.total_amount)}</td>
                                                 <td className="px-4 py-3 text-center num text-success">{formatCurrency(inv.amount_paid)}</td>
                                                 <td className="px-4 py-3 text-center num font-bold text-destructive">{formatCurrency(inv.balance_due)}</td>
+                                                {user?.role === 'admin' && (
+                                                <td className="px-4 py-3 text-center">
+                                                    <div className="flex flex-col items-center">
+                                                        <span className="text-xs font-bold text-foreground">
+                                                            {getUserName(inv.created_by)}
+                                                        </span>
+                                                        <span className="text-[10px] text-muted-foreground" dir="ltr">
+                                                            {inv.created_at ? format(new Date(inv.created_at), 'dd/MM/yyyy HH:mm') : '-'}
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                )}
                                                 <td className="px-4 py-3 text-center">
                                                     <Button
                                                         size="sm"

@@ -33,7 +33,7 @@ export function TimePeriodFilter({ selectedPeriod, onPeriodChange }: TimePeriodF
                             key={period}
                             onClick={() => onPeriodChange(period)}
                             className={`
-              px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
+              px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap
               ${selectedPeriod === period
                                     ? 'bg-primary text-primary-foreground shadow-sm'
                                     : 'text-muted-foreground hover:text-foreground hover:bg-accent'

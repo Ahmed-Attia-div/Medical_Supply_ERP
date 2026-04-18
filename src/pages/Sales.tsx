@@ -4,6 +4,7 @@ import { useProducts, useSurgeriesList } from '@/hooks/useSupabaseData';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { surgeriesService } from '@/services/surgeriesService';
 import { productsService } from '@/services/productsService';
+import { usersService } from '@/services/usersService';
 import { supabase } from '@/lib/supabase';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Button } from '@/components/ui/button';
@@ -584,6 +585,17 @@ export default function Sales() {
   // Surgeries list
   const { data: surgeries = [], isLoading: loadingSurgeries, error: errorSurgeries } = useSurgeriesList();
 
+  const { data: users = [] } = useQuery<{ id: string; name: string }[]>({
+    queryKey: ['users'],
+    queryFn: () => usersService.getAll(),
+    staleTime: 300_000,
+  });
+
+  const getUserName = (userId: string) => {
+    const creator = users.find(u => u.id === userId);
+    return creator ? creator.name : 'Unknown';
+  };
+
   // Inventory — fetch all (no pagination) for the item selection dropdown
   const { data: pagedInventory, isLoading: loadingInventory } = useProducts({}, { page: 1, pageSize: 500 });
   const inventory = pagedInventory?.data ?? [];
@@ -972,6 +984,7 @@ export default function Sales() {
                     <th className="px-4 py-3 text-center">عدد الأصناف</th>
                     {canViewPrices && <th className="px-4 py-3 text-center">إجمالي الفاتورة</th>}
                     {canViewProfit && <th className="px-4 py-3 text-center">الربح</th>}
+                    {user?.role === 'admin' && <th className="px-4 py-3 text-center">سجل الإضافة</th>}
                     <th className="px-4 py-3 text-center">الإجراءات</th>
                   </tr>
                 </thead>
@@ -1044,6 +1057,18 @@ export default function Sales() {
                           {canViewProfit && (
                             <td className="px-4 py-3 text-center num font-medium text-success">
                               {new Intl.NumberFormat('en-EG').format(surgery.profit)} ج.م
+                            </td>
+                          )}
+                          {user?.role === 'admin' && (
+                            <td className="px-4 py-3 text-center">
+                              <div className="flex flex-col items-center">
+                                <span className="text-xs font-bold text-foreground">
+                                  {getUserName(surgery.createdBy)}
+                                </span>
+                                <span className="text-[10px] text-muted-foreground" dir="ltr">
+                                  {surgery.createdAt ? format(new Date(surgery.createdAt), 'dd/MM/yyyy HH:mm') : '-'}
+                                </span>
+                              </div>
                             </td>
                           )}
                           <td className="px-4 py-3">

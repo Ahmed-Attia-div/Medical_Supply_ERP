@@ -98,13 +98,40 @@ export const invoicesService = {
 
     /** Get open (unpaid / partial) invoices */
     async getOpenInvoices() {
+        // Query the invoices table directly to include all necessary fields like created_by and created_at
         const { data, error } = await supabase
-            .from('open_invoices')
-            .select('*')
+            .from('invoices')
+            .select(`
+                id,
+                supplier_id,
+                invoice_date,
+                vendor_invoice_number,
+                total_amount,
+                amount_paid,
+                payment_status,
+                created_by,
+                created_at,
+                suppliers ( name )
+            `)
+            .neq('payment_status', 'paid')
             .order('invoice_date', { ascending: true });
 
         if (error) throw handleSupabaseError(error, 'جلب الفواتير المفتوحة');
-        return data ?? [];
+        
+        // Map data to match the expected format matching the view
+        return (data ?? []).map((inv: any) => ({
+            id: inv.id,
+            supplier_id: inv.supplier_id,
+            supplier_name: inv.suppliers?.name,
+            invoice_date: inv.invoice_date,
+            vendor_invoice_number: inv.vendor_invoice_number,
+            payment_status: inv.payment_status,
+            total_amount: inv.total_amount,
+            amount_paid: inv.amount_paid,
+            balance_due: Number(inv.total_amount) - Number(inv.amount_paid),
+            created_by: inv.created_by,
+            created_at: inv.created_at
+        }));
     },
 
     /**
