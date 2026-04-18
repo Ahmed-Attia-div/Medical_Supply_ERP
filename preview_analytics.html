@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
+        .num { font-family: 'Inter', sans-serif; direction: ltr; display: inline-block; }
+    </style>
+</head>
+<body class="p-8">
+
+    <!-- Card Container -->
+    <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm max-w-4xl mx-auto">
+        
+        <!-- Header -->
+        <div class="flex items-center gap-2 mb-4">
+            <!-- Icon Mock -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-green-500"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <h2 class="text-lg font-bold text-gray-900">
+              ربحية العمليات الجراحية
+            </h2>
+        </div>
+        
+        <p class="text-sm text-gray-500 mb-4">
+          تحليل الربح لكل عملية جراحية
+        </p>
+
+        <!-- Table -->
+        <div class="w-full overflow-auto">
+            <table class="w-full caption-bottom text-sm text-right">
+                <thead class="[&_tr]:border-b">
+                    <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                        <th class="h-12 px-4 text-right align-middle font-medium text-gray-500">المريض</th>
+                        <th class="h-12 px-4 text-right align-middle font-medium text-gray-500">التاريخ</th>
+                        <th class="h-12 px-4 text-right align-middle font-medium text-gray-500">قيمة البيع</th>
+                        <th class="h-12 px-4 text-right align-middle font-medium text-gray-500">الربح</th>
+                    </tr>
+                </thead>
+                <tbody class="[&_tr:last-child]:border-0">
+                    
+                    <!-- Row 1: High Profit -->
+                    <tr class="border-b transition-colors hover:bg-gray-50/50">
+                        <td class="p-4 align-middle">
+                            <div>
+                                <p class="font-medium text-gray-900">أحمد محمود</p>
+                                <p class="text-xs text-gray-500">تثبيت كسر مضاعف</p>
+                            </div>
+                        </td>
+                        <td class="p-4 align-middle">
+                            <span class="text-gray-500 text-xs">05 فبراير 2026</span>
+                        </td>
+                        <td class="p-4 align-middle">
+                            <span class="num text-gray-900">25,000.00 ج.م</span>
+                        </td>
+                        <td class="p-4 align-middle">
+                            <div>
+                                <span class="num font-medium text-green-600">8,500.00 ج.م</span>
+                                <p class="text-xs text-gray-500 num">(34.0%)</p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Row 2: Medium Profit -->
+                    <tr class="border-b transition-colors hover:bg-gray-50/50">
+                        <td class="p-4 align-middle">
+                            <div>
+                                <p class="font-medium text-gray-900">سارة علي</p>
+                                <p class="text-xs text-gray-500">شرائح ومسامير</p>
+                            </div>
+                        </td>
+                        <td class="p-4 align-middle">
+                            <span class="text-gray-500 text-xs">03 فبراير 2026</span>
+                        </td>
+                        <td class="p-4 align-middle">
+                            <span class="num text-gray-900">18,000.00 ج.م</span>
+                        </td>
+                        <td class="p-4 align-middle">
+                            <div>
+                                <span class="num font-medium text-green-600">4,200.00 ج.م</span>
+                                <p class="text-xs text-gray-500 num">(23.3%)</p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Row 3: Lower Profit -->
+                    <tr class="border-b transition-colors hover:bg-gray-50/50">
+                        <td class="p-4 align-middle">
+                            <div>
+                                <p class="font-medium text-gray-900">محمود حسن</p>
+                                <p class="text-xs text-gray-500">منظار ركبة</p>
+                            </div>
+                        </td>
+                        <td class="p-4 align-middle">
+                            <span class="text-gray-500 text-xs">01 فبراير 2026</span>
+                        </td>
+                        <td class="p-4 align-middle">
+                            <span class="num text-gray-900">12,000.00 ج.م</span>
+                        </td>
+                        <td class="p-4 align-middle">
+                            <div>
+                                <span class="num font-medium text-green-600">1,800.00 ج.م</span>
+                                <p class="text-xs text-gray-500 num">(15.0%)</p>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
