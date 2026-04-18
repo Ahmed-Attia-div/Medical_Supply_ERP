@@ -1,73 +1,126 @@
-# Welcome to your Lovable project
+# Supply-Care (Medical Supply ERP)
 
-## Project info
+Supply-Care is a comprehensive Enterprise Resource Planning (ERP) web application tailored specifically for medical supply businesses and clinics. It provides end-to-end management of inventory, purchasing, sales, invoicing, supplier debts, and financial reporting.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## 🚀 Key Features
 
-## How can I edit this code?
+### 1. Dashboard & Analytics
+- **Real-time Metrics**: High-level overview of total sales, total purchases, outstanding debts, and overall inventory value.
+- **Charts and Graphs**: Visual representation of financial data and trends using `recharts`.
 
-There are several ways of editing your application.
+### 2. Inventory Management
+- **Product Tracking**: Complete CRUD operations for medical supplies and items.
+- **Batch Management**: Track specific batches, expiry dates, and lot numbers for medical traceability.
+- **Costing Methods**: Intelligent calculation using Weighted Average Cost (WAC) tracking and actual batch cost evaluation.
+- **Categorization**: Group products into categories dynamically mapping to the database.
 
-**Use Lovable**
+### 3. Sales & Invoicing
+- **Point of Sale**: Create and print customized invoices directly.
+- **Surgery/Operation Returns**: Logic to handle specific returned items after medical surgeries, dynamically adjusting client costs and restoring inventory.
+- **Flexible Payments**: Support for partial payments and tracking unpaid balances on individual sales.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+### 4. Purchases & Suppliers
+- **Purchase Orders**: Log incoming shipments, defining batch specifics (costs, quantities, expiry dates).
+- **Supplier Database**: Maintain profiles for all wholesale distributors and specific suppliers.
+- **Purchase Invoices**: Generate records of liabilities accurately mapping to inventory increments.
 
-Changes made via Lovable will be committed automatically to this repo.
+### 5. Supplier Debts & Financials
+- **Debt Tracking**: Monitor aggregate and invoice-level balances due to suppliers.
+- **Payment Processing**: Make partial or complete payments against specific supplier invoices. Prevents overpayment through custom validation.
+- **Transaction History**: Audit logs for all payments made out to suppliers.
 
-**Use your preferred IDE**
+### 6. Reporting & Exports
+- **Data Tables**: Rich data views with searching, sorting, and pagination.
+- **Excel Exporting**: Generate comprehensive `.xlsx` files detailing financial reports, doctor attendance, deductions, and net payouts.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 7. Auth & Security
+- **Role-Based Access Control (RBAC)**: Fine-grained permissions allowing administrators to manage what staff members can see and do.
+- **Supabase Authentication**: Secure login mechanism leveraging Supabase GoTrue Auth.
+- **Row Level Security (RLS)**: Enforced backend security ensures users only have access to authorized database segments.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## 🛠️ Technology Stack
 
+**Frontend Architecture:**
+- **Framework**: [React 18](https://reactjs.org/) + [Vite](https://vitejs.dev/) for rapid, modern development.
+- **Language**: [TypeScript](https://www.typescriptlang.org/) ensuring strictly typed, bug-resistant code.
+- **Routing**: [React Router](https://reactrouter.com/) for single-page application navigation.
+- **Data Fetching/State**: [TanStack React Query](https://tanstack.com/query) for optimized server-state management and caching.
+
+**Styling & UI:**
+- **CSS Framework**: [Tailwind CSS](https://tailwindcss.com/) for utility-first styling.
+- **UI Components**: [shadcn/ui](https://ui.shadcn.com/) paired with [Radix UI](https://www.radix-ui.com/) primitives for deeply accessible, customizable components.
+- **Icons**: [Lucide React](https://lucide.dev/).
+- **Animations**: `tailwindcss-animate` and basic Framer Motion concepts.
+
+**Backend & Integration:**
+- **BaaS**: [Supabase](https://supabase.com/).
+- **Database**: PostgreSQL (managed by Supabase) equipped with custom RPC functions for complex business logic (e.g. `get_dashboard_stats`, `update_invoice_payment`).
+- **File Storage**: Supabase Storage for managing possible attachments or profile avatars.
+
+---
+
+## 💻 Getting Started
+
+### Prerequisites
+- [Node.js](https://nodejs.org/en/) (v18 or higher recommended)
+- `npm` or `yarn` installed.
+- A dedicated [Supabase](https://supabase.com/) project set up with the specific database schema for Supply-Care.
+
+### Installation Steps
+
+1. **Clone the repository:**
+   ```sh
+   git clone <YOUR_GIT_URL>
+   cd <YOUR_PROJECT_NAME>
+   ```
+
+2. **Install dependencies:**
+   ```sh
+   npm install
+   ```
+
+3. **Set up Environment Variables:**
+   Create a `.env` file in the root directory and add your Supabase credentials:
+   ```env
+   VITE_SUPABASE_URL=your_supabase_project_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
+
+4. **Start the development server:**
+   ```sh
+   npm run dev
+   ```
+   *The application will boot up at `http://localhost:8080/` (or the nearest available port).*
+
+### Building for Production
+To build the app for production deployment, run:
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+npm run build
 ```
+This generates an optimized static build inside the `dist/` folder, which can be deployed to Vercel, Netlify, or any static hosting service.
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 📂 Project Structure Overview
 
-**Use GitHub Codespaces**
+- `src/components/`: Reusable, atomic UI elements (often populated by shadcn-ui).
+- `src/pages/`: Main application views (`Dashboard`, `Inventory`, `Sales`, `Purchases`, `SupplierDebts`, `Reports`, `Settings`, etc).
+- `src/hooks/`: Custom React hooks, including data fetching hooks wrapping TanStack Query.
+- `src/lib/` or `src/utils/`: Utility functions (formatting dates, currency, Supabase client initialization).
+- `src/contexts/`: React Contexts (e.g., Auth Provider).
+- `public/`: Static assets bypassing the Vite bundler.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
+## 🤝 Editing the Code
 
-This project is built with:
+### Working with the Database Schema
+Any structural changes to data must be reflected in your Supabase SQL definitions. Ensure any changes to `users`, `inventory`, `invoices`, or related junction tables are adequately protected with Supabase's **Row Level Security (RLS)** to avoid `401 Unauthorized` errors during authenticated fetch requests.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Extending Interfaces
+When modifying complex forms (like `CreateInvoice.tsx` or `SupplierDebts.tsx`), adhere to using `react-hook-form` coupled with `zod` for robust schema validation.
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+---
+*Maintained and developed for the absolute modernization of medical inventory management.*
